@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
 public class ShowDatabase extends Activity {
-    ////////// �����㹡�á�����٤�ҧ ///////////
+
     private String[] Countries;
   //  String[] menuArray = {"Edit", "Delete"};
     //////////////////////
@@ -27,6 +30,7 @@ public class ShowDatabase extends Activity {
   //  public static final String MESSAGE = "Message";
     public ListView listViewdatabase;
     String index_id;
+    String[] menu2 = {"เปลี่ยนสี", "แก้ไขสี" ,"ออกจากโปรแกรม" };
 
 
     @Override
@@ -71,10 +75,36 @@ public class ShowDatabase extends Activity {
 
         });
 
+        registerForContextMenu(listViewdatabase);
+
     }
-/////////////////////////////////////////////////////
 
 
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getItemId()== 0){
+            Toast.makeText(ShowDatabase.this, "เปลี่ยนสี", Toast.LENGTH_SHORT).show();
+        }
+        if(item.getItemId()== 1){
+            Toast.makeText(ShowDatabase.this, "แก้ไขข้อมูล", Toast.LENGTH_SHORT).show();
+        }
+        if(item.getItemId()== 2){
+            Toast.makeText(ShowDatabase.this, "ออกจากโปรแกรม", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId()== R.id.listView) {
+            menu.setHeaderTitle("เมนูย่อย");
+            for (int i = 0; i<menu2.length; i++) {
+                menu.add(Menu.NONE, i, i, menu2[i]);
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
